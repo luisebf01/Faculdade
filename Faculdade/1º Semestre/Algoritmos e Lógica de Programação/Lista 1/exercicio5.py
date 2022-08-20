@@ -1,3 +1,5 @@
+# Solicite o preço de uma mercador ia e o percentual de desconto. Exiba o valor do desconto e o preço a pagar.
+
 preco = float(input("Insira o preço da mercadoria: "))
 porcentagem = float(input("Insira a porcentagem do desconto: ")) / 100
 desconto = preco * porcentagem

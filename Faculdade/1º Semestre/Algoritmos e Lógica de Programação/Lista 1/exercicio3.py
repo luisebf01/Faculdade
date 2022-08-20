@@ -1,3 +1,5 @@
+# Escreva um programa que leia a quantidade de dias, horas, minutos e segundos do usuário. Calcule o total em segundos.
+
 d = int(input("Insira a quantidade de dias: "))
 h = int(input("Insira a quantidade de horas: "))
 m = int(input("Insira a quantidade de minutos: "))
