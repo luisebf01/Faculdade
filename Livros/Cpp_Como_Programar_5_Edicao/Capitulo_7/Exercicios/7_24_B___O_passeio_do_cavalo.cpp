@@ -1,13 +1,20 @@
 /*
-(O Passeio do Cavalo) Um dos quebra-cabeças mais interessantes dos entusiastas do xadrez é o problema do Passeio do Cavalo. 
-Esta é a pergunta: a peça de xadrez chamada cavalo pode-se em um tabuleiro vazio e tocar cada um dos 64 quadrados uma vez
- e unicamente uma vez? Estudamos esse problema intrigante profundamente nesse exercício. O cavalo move-se em um caminho
-  em forma de L (duas posições
-   em uma direção e então uma em uma direção perpendicular). Portanto, a partir de um quadrado no meio de um 
-   tabuleiro vazio, o cavalo pode fazer oito movimentos diferentes (numerados de 0 a 7) como mostra a Figura 7.34
+(O Passeio do Cavalo) Um dos quebra-cabeças mais interessantes dos entusiastas do xadrez 
+é o problema do Passeio do Cavalo. Esta é a pergunta: a peça de xadrez chamada cavalo 
+pode-se em um tabuleiro vazio e tocar cada um dos 64 quadrados uma vez e unicamente uma vez?
+Estudamos esse problema intrigante profundamente nesse exercício. O cavalo move-se em um 
+caminho em forma de L (duas posições em uma direção e então uma em uma direção perpendicular). Portanto, a partir de um quadrado no meio de um tabuleiro vazio, o cavalo pode fazer oito movimentos diferentes (numerados de 0 a 7) como mostra a Figura 7.34
 
-b) Agora vamos desenvolver um programa que moverá o cavalo por um tabuleiro. O tabuleiro é representado por um array bidimensional 8 por 8 chamado board. Cada um dos quadrados é inicializado como zero. Descrevemos cada um dos oito possíveis movimentos em termos de seus componentes verticais e horizontais. Por exemplo, um movimento do tipo 0 como mostrado na Figura 7.34 consiste em mover dois quadrados horizontalmente para direita e um quadrado verticalmente para cima. O movimento 2 consiste em mover um quadrado horizontalmente para a esquerda e dois quadrados verticalmente para cima. Movimentos horizontais para a esquerda
-e movimentos verticais para cima são indicados com números negativos. Os oitos movimentos podem ser descritos por dois arrays unidimensionais, horizontal e vertical, como segue:
+b) Agora vamos desenvolver um programa que moverá o cavalo por um tabuleiro. O tabuleiro é 
+representado por um array bidimensional 8 por 8 chamado board. Cada um dos quadrados é 
+inicializado como zero. Descrevemos cada um dos oito possíveis movimentos em termos de seus 
+componentes verticais e horizontais. Por exemplo, um movimento do tipo 0 como mostrado na 
+Figura 7.34 consiste em mover dois quadrados horizontalmente para direita e um quadrado 
+verticalmente para cima. O movimento 2 consiste em mover um quadrado horizontalmente 
+para a esquerda e dois quadrados verticalmente para cima. Movimentos horizontais para a 
+esquerda e movimentos verticais para cima são indicados com números negativos. 
+Os oitos movimentos podem ser descritos por dois arrays unidimensionais, horizontal e 
+vertical, como segue:
 
     horizontal[ 0 ] = 2
     horizontal[ 1 ] = 1
