@@ -3,7 +3,9 @@
 é o problema do Passeio do Cavalo. Esta é a pergunta: a peça de xadrez chamada cavalo 
 pode-se em um tabuleiro vazio e tocar cada um dos 64 quadrados uma vez e unicamente uma vez?
 Estudamos esse problema intrigante profundamente nesse exercício. O cavalo move-se em um 
-caminho em forma de L (duas posições em uma direção e então uma em uma direção perpendicular). Portanto, a partir de um quadrado no meio de um tabuleiro vazio, o cavalo pode fazer oito movimentos diferentes (numerados de 0 a 7) como mostra a Figura 7.34
+caminho em forma de L (duas posições em uma direção e então uma em uma direção perpendicular).
+ Portanto, a partir de um quadrado no meio de um tabuleiro vazio, o cavalo pode fazer oito 
+ movimentos diferentes (numerados de 0 a 7) como mostra a Figura 7.34
 
 b) Agora vamos desenvolver um programa que moverá o cavalo por um tabuleiro. O tabuleiro é 
 representado por um array bidimensional 8 por 8 chamado board. Cada um dos quadrados é 
@@ -33,12 +35,18 @@ vertical, como segue:
     vertical[ 6 ] = 2
     vertical[ 7 ] = 1
 
-Faça com que as variáveis currentRow e currentColumn indiquem a linha e a coluna da posição atual do cavalo. Para fazer um movimento do tipo moveNumber, onde moveNumber está entre 0 e 7, seu programa utiliza as instruções 
+Faça com que as variáveis currentRow e currentColumn indiquem a linha e a coluna da posição
+atual do cavalo. Para fazer um movimento do tipo moveNumber, onde moveNumber está entre 0 e 7,
+seu programa utiliza as instruções 
 
     currentRow += vertical[ moveNumber ];
     currentColumn += horizontal[ moveNumber ];
     
-Mantenha um contador que varia de 1 para 64. Registre a última contagem em cada quadrado para o qual o cavalo se move. Lembrese de testar cada potencial movimento para ver se o cavalo já visitou esse quadrado e, naturalmente, teste cada potencial movimento para certificar-se de que o cavalo não caia fora do tabuleiro. Agora escreva um programa para mover o cavalo pelo tabuleiro. Execute o programa. Quantos movimentos o cavalo fez?
+Mantenha um contador que varia de 1 para 64. Registre a última contagem em cada quadrado 
+para o qual o cavalo se move. Lembrese de testar cada potencial movimento para ver se o 
+cavalo já visitou esse quadrado e, naturalmente, teste cada potencial movimento para 
+certificar-se de que o cavalo não caia fora do tabuleiro. Agora escreva um programa para 
+mover o cavalo pelo tabuleiro. Execute o programa. Quantos movimentos o cavalo fez?
 */
 
 #include <iostream>
