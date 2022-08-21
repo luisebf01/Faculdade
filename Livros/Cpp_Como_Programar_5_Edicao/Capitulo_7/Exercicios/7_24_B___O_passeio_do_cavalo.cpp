@@ -78,8 +78,8 @@ int main()
     currentColumn = 1; currentRow = 1;
     currentColumn = 2; currentRow = 2;
     */
-    int currentColumn = 6; // está para moveH[sideOfChessBoard]
-    int currentRow = 0; // está para moveV[sideOfChessBoard]
+    int currentColumn = 6; // está para horizontal[sideOfChessBoard]
+    int currentRow = 0; // está para vertical[sideOfChessBoard]
     int tempColumn = currentColumn; // coluna temporaria para teste
     int tempRow = currentRow;  // linha temporaria para teste
     
