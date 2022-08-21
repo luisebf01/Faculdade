@@ -91,41 +91,42 @@ int main()
     int sub = 100;
     int decision = 0;
     
-    int row_FirstMove = 0; // está para moveV[sideOfChessBoard]
-    int column_FirstMove = 0; // está para moveH[sideOfChessBoard]
-    int tempRow_FirstMove = 0;  // linha temporaria para teste
-    int tempColumn_FirstMove = 0; // coluna temporaria para teste
+    int row_FirstMove = 0;
+    int column_FirstMove = 0;
+    int tempRow_FirstMove = 0;
+    int tempColumn_FirstMove = 0;
     
-    int row_SecondMove = 0; // está para moveV[sideOfChessBoard]
-    int column_SecondMove = 0; // está para moveH[sideOfChessBoard]
-    int tempRow_SecondMove = 0;  // linha temporaria para teste
-    int tempColumn_SecondMove = 0; // coluna temporaria para teste
-        
-    int numberOfCurrentMovement = 0; // contador do loop de alterações
+    int row_SecondMove = 0;
+    int column_SecondMove = 0;
+    int tempRow_SecondMove = 0;
+    int tempColumn_SecondMove = 0;
+    
+    const int initialMovement = 0;
+    int numberOfCurrentMovement = initialMovement;
     const int numberOfPossibleMovements = 64;
     
-    bool alteration = false; // se alterar o tabuleiro = true
+    bool alteration = false;
     
     int currentRow = 0;
     int currentColumn = 0;
     
-    while(currentRow < ranks)
+    while(currentRow < ranks) // enquanto a linha atual for menor que o limite de linhas do tabuleiro
     {
-        currentColumn = 0;
-        while(currentColumn < files)
+        currentColumn = initialMovement;
+        while(currentColumn < files) // enquanto a coluna atual for menor que o limite de colunas do tabuleiro
         {
-            column_FirstMove = currentColumn; // está para moveH[sideOfChessBoard]
-            row_FirstMove = currentRow; // está para moveV[sideOfChessBoard]
-            tempColumn_FirstMove = column_FirstMove; // coluna temporaria para teste
-            tempRow_FirstMove = row_FirstMove;  // linha temporaria para teste
-            numberOfCurrentMovement = 0;
+            column_FirstMove = currentColumn; 
+            row_FirstMove = currentRow; 
+            tempColumn_FirstMove = column_FirstMove; 
+            tempRow_FirstMove = row_FirstMove;
+            numberOfCurrentMovement = initialMovement;
             while(numberOfCurrentMovement < numberOfPossibleMovements) // board
             {
                 alteration = false;
                 smallerAcessibility = smallestAcessibility;
                 tempMoveNumber = initialMoveNumber;
                 moveNumber = initialMoveNumber;
-                while(moveNumber < 8) // moveNumber
+                while(moveNumber < maximumMovesNumber) // moveNumber
                 {
                     if((row_FirstMove + vertical[moveNumber]) >= arrayLowerBoundIndex &&
                         (row_FirstMove + vertical[moveNumber]) <= arrayUpperBoundIndex &&
@@ -156,17 +157,17 @@ int main()
                     }
                     moveNumber++;
                 }
-                if(listOfMoveNumbers.size() > 1)
+                if(listOfMoveNumbers.size() > 1) // se existe mais de 1 movimento possível com a mesma acessibilidade
                 {
                     sub = 100;
-                    decision = 0;
-                    decisiveMoveNumber = 0;
+                    decision = initialMoveNumber;
+                    decisiveMoveNumber = initialMoveNumber;
                     while(decisiveMoveNumber < listOfMoveNumbers.size())
                     {
                         smallerAcessibility = smallestAcessibility;
                         tempMoveNumber = initialMoveNumber;
                         moveNumber = initialMoveNumber;
-                        while(moveNumber < 8)
+                        while(moveNumber < maximumMovesNumber)
                         {
                             if((row_SecondMove + vertical[moveNumber]) >= arrayLowerBoundIndex &&
                                 (row_SecondMove + vertical[moveNumber]) <= arrayUpperBoundIndex &&
@@ -187,51 +188,51 @@ int main()
                         }
                         if(smallerAcessibility < sub)
                         {
-                            sub = smallerAcessibility; // abalistRowa o nivel
+                            sub = smallerAcessibility;
                             decision = decisiveMoveNumber; // decide pelo indice atual
                         }
                         decisiveMoveNumber++;
                     }
                     tempMoveNumber = listOfMoveNumbers[decision];
                 }
-                if(alteration == false)
+                if(alteration == false) // se não houve uma alteração
                     break;
                 row_FirstMove += vertical[tempMoveNumber];
                 column_FirstMove += horizontal[tempMoveNumber];
                 tempRow_FirstMove = row_FirstMove;
                 tempColumn_FirstMove = column_FirstMove;
-                acessibility[row_FirstMove][column_FirstMove] = 0;
-                test[row_FirstMove][column_FirstMove] = numberOfCurrentMovement + 1;
+                acessibility[row_FirstMove][column_FirstMove] = emptyBoardSquare; // zera no tabuleiro 'acessibility' o movimento que deu certo
+                test[row_FirstMove][column_FirstMove] = numberOfCurrentMovement + 1; // salva no tabuleiro 'test' o número do movimento que deu certo
                 numberOfCurrentMovement++;
             } 
-            if(numberOfCurrentMovement == numberOfPossibleMovements)
+            if(numberOfCurrentMovement == numberOfPossibleMovements) // significa que completei um tabuleiro
             {
-                listRow.push_back(currentRow);
-                listColumn.push_back(currentColumn);
+                listRow.push_back(currentRow); // salva a linha atual no array vector 'listRow'
+                listColumn.push_back(currentColumn); // salva a coluna atual no array vector 'listColumn'
                 cout << "Sequencia = " << listRow.size() 
-                    << "\tl = " << currentRow << "\tc = " << currentColumn << endl;
+                    << "\tl = " << currentRow << "\tc = " << currentColumn << endl; // printa o 'cabeçalho' do tabuleiro
                 for(int line = 0; line < ranks; line++, cout << endl)
                     for(int column = 0; column < files; column++)
-                        cout << setw(4) << test[line][column];
+                        cout << setw(4) << test[line][column]; // printa o tabuleiro 'test'
                 cout << endl << endl;
-                for(int m = 0; m < ranks; m++)
-                    for(int n = 0; n < files; n++)
-                        test[m][n] = board[m][n];
+                for(int line = 0; line < ranks; line++)
+                    for(int column = 0; column < files; column++)
+                        test[line][column] = board[line][column]; // reseta o tabuleiro 'test'
             }
-            for(int a = 0; a < ranks; a++)
-                for(int b = 0; b < files; b++)
-                    acessibility[a][b] = board[a][b];
+            for(int line = 0; line < ranks; line++)
+                for(int column = 0; column < files; column++)
+                    acessibility[line][column] = board[line][column]; // reseta o tabuleiro 'acessibility'
             currentColumn++;
         }
         currentRow++;
     }
-    cout << "\t\tSize = " << listRow.size() << endl;
+    cout << "\t\tSize = " << listRow.size() << endl; // printa quantos tabuleiros foram feitos
     cout << "\n      Row =   ";
-    for(int r = 0; r < listRow.size(); r++)
-        cout << listRow[r] << "   ";
+    for(int line = 0; line < listRow.size(); line++)
+        cout << listRow[line] << "   "; // printa as linhas que deram certo
     cout << endl;
     cout << "   Column =   ";
-    for(int s = 0; s < listRow.size(); s++)
-        cout << listColumn[s] << "   ";
+    for(int column = 0; column < listColumn.size(); column++)
+        cout << listColumn[column] << "   "; // printa as colunas que deram certo
     return 0;
 }
