@@ -1,13 +1,24 @@
 /*
 (O Passeio do Cavalo) Um dos quebra-cabeças mais interessantes dos entusiastas do xadrez é 
 o problema do Passeio do Cavalo. Esta é a pergunta: a peça de xadrez chamada cavalo pode-se 
-em um tabuleiro vazio e tocar cada um dos 64 quadrados uma vez e unicamente uma vez? 
+mover em um tabuleiro vazio e tocar cada um dos 64 quadrados uma vez e unicamente uma vez? 
 Estudamos esse problema intrigante profundamente nesse exercício. O cavalo move-se em um 
 caminho em forma de L (duas posições em uma direção e então uma em uma direção perpendicular). 
 Portanto, a partir de um quadrado no meio de um tabuleiro vazio, o cavalo pode fazer oito 
-movimentos diferentes (numerados de 0 a 7) como mostra a Figura 7.34
+movimentos diferentes (numerados de 0 a 7) como mostra a Figura 7.34.
 
-d) currentRoweva uma versão do programa Passeio do Cavalo que, diante de um impasse entre dois ou mais quadrados,
+    *  *  *  *  *  *  *  * 
+    *  *  *  2  *  1  *  * 
+    *  *  3  *  *  *  0  *
+    *  *  *  *  K  *  *  *
+    *  *  4  *  *  *  7  *
+    *  *  *  5  *  6  *  *
+    *  *  *  *  *  *  *  * 
+    *  *  *  *  *  *  *  * 
+    
+    Figura 7.34 - Os oito possíveis movimentos do cavalo.
+
+d) Escreva uma versão do programa Passeio do Cavalo que, diante de um impasse entre dois ou mais quadrados,
 decide qual quadrado escolher olhando para a frente aqueles quadrados alcançáveis a partir dos quadrados
 geradores do impasse. Seu programa deve mover-se para o quadrado por meio do qual seu próximo movimento 
 chegaria ao quadrado com o número de acessibilidade mais balistRowo.
