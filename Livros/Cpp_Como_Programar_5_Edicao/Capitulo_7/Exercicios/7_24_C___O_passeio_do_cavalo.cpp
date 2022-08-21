@@ -74,6 +74,7 @@ int main()
     
     const int horizontal[sideOfChessBoard] = { 2, 1, -1, -2, -2, -1, 1, 2 }; // movimentos possiveis em x
     const int vertical[sideOfChessBoard] = { -1, -2, -2, -1, 1, 2, 2, 1 }; // movimentos possiveis em y
+    
     const int initialMoveNumber = 0;
     int moveNumber = 0; // essa variavel combina os 2 arrays acima para movimentar o cavalo
     int tempMoveNumber = 0;

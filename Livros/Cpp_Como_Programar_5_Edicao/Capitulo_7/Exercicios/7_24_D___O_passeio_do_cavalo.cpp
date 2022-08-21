@@ -7,10 +7,10 @@ caminho em forma de L (duas posições em uma direção e então uma em uma dire
 Portanto, a partir de um quadrado no meio de um tabuleiro vazio, o cavalo pode fazer oito 
 movimentos diferentes (numerados de 0 a 7) como mostra a Figura 7.34
 
-d) Escreva uma versão do programa Passeio do Cavalo que, diante de um impasse entre dois ou mais quadrados,
+d) currentRoweva uma versão do programa Passeio do Cavalo que, diante de um impasse entre dois ou mais quadrados,
 decide qual quadrado escolher olhando para a frente aqueles quadrados alcançáveis a partir dos quadrados
-geradores do impasse. Seu programa deve moverse para o quadrado por meio do qual seu próximo movimento 
-chegaria ao quadrado com o número de acessibilidade mais baixo.
+geradores do impasse. Seu programa deve mover-se para o quadrado por meio do qual seu próximo movimento 
+chegaria ao quadrado com o número de acessibilidade mais balistRowo.
 */
 
 #include <iostream>
@@ -26,190 +26,201 @@ using std::vector;
 
 int main()
 {
-    const int side = 8;
-    int acessibility[side][side] = { {2,3,4,4,4,4,3,2},
-                                     {3,4,6,6,6,6,4,3},
-                                     {4,6,8,8,8,8,6,4},
-                                     {4,6,8,8,8,8,6,4},
-                                     {4,6,8,8,8,8,6,4},
-                                     {4,6,8,8,8,8,6,4},
-                                     {3,4,6,6,6,6,4,3},
-                                     {2,3,4,4,4,4,3,2} };
+    const int sideOfChessBoard = 8;
+    const int ranks = sideOfChessBoard; // rows of a chessboard
+    const int files = sideOfChessBoard; // columns of a chessboard    
                                      
-    int board[side][side] = { {2,3,4,4,4,4,3,2},
-                              {3,4,6,6,6,6,4,3},
-                              {4,6,8,8,8,8,6,4},
-                              {4,6,8,8,8,8,6,4},
-                              {4,6,8,8,8,8,6,4},
-                              {4,6,8,8,8,8,6,4},
-                              {3,4,6,6,6,6,4,3},
-                              {2,3,4,4,4,4,3,2} };
+    const int board[sideOfChessBoard][sideOfChessBoard] = { {2,3,4,4,4,4,3,2},
+                                                            {3,4,6,6,6,6,4,3},
+                                                            {4,6,8,8,8,8,6,4},
+                                                            {4,6,8,8,8,8,6,4},
+                                                            {4,6,8,8,8,8,6,4},
+                                                            {4,6,8,8,8,8,6,4},
+                                                            {3,4,6,6,6,6,4,3},
+                                                            {2,3,4,4,4,4,3,2} };
+
+    int acessibility[sideOfChessBoard][sideOfChessBoard] = { {2,3,4,4,4,4,3,2},
+                                                             {3,4,6,6,6,6,4,3},
+                                                             {4,6,8,8,8,8,6,4},
+                                                             {4,6,8,8,8,8,6,4},
+                                                             {4,6,8,8,8,8,6,4},
+                                                             {4,6,8,8,8,8,6,4},
+                                                             {3,4,6,6,6,6,4,3},
+                                                             {2,3,4,4,4,4,3,2} };
                               
-    int test[side][side] = { {2,3,4,4,4,4,3,2},
-                             {3,4,6,6,6,6,4,3},
-                             {4,6,8,8,8,8,6,4},
-                             {4,6,8,8,8,8,6,4},
-                             {4,6,8,8,8,8,6,4},
-                             {4,6,8,8,8,8,6,4},
-                             {3,4,6,6,6,6,4,3},
-                             {2,3,4,4,4,4,3,2} };
+    int test[sideOfChessBoard][sideOfChessBoard] = { {2,3,4,4,4,4,3,2},
+                                                     {3,4,6,6,6,6,4,3},
+                                                     {4,6,8,8,8,8,6,4},
+                                                     {4,6,8,8,8,8,6,4},
+                                                     {4,6,8,8,8,8,6,4},
+                                                     {4,6,8,8,8,8,6,4},
+                                                     {3,4,6,6,6,6,4,3},
+                                                     {2,3,4,4,4,4,3,2} };
+
+    const int emptyBoardSquare = 0; 
+    const int arrayLowerBoundIndex = 0;
+    const int arrayUpperBoundIndex = 7;
+
+    const int horizontal[sideOfChessBoard] = { 2, 1, -1, -2, -2, -1, 1, 2 }; // movimentos possiveis em x
+    const int vertical[sideOfChessBoard] = { -1, -2, -2, -1, 1, 2, 2, 1 }; // movimentos possiveis em y
+
+    const int initialMoveNumber = 0;
+    int moveNumber = 0; // essa variavel combina os 2 arrays acima para movimentar o cavalo
+    int tempMoveNumber = 0;    
+    int decisiveMoveNumber = 0;
+    const int maximumMovesNumber = 8;  
+
+    const int smallestAcessibility = 9;
+    int smallerAcessibility = smallestAcessibility;
     
-    const int moveX[side] = { 2, 1, -1, -2, -2, -1, 1, 2 }; // movimentos possiveis em x
-    const int moveY[side] = { -1, -2, -2, -1, 1, 2, 2, 1 }; // movimentos possiveis em y
-    int mN = 0; // moveNumber --- 0 até 7 == 8 movimentos possiveis do cavalo
-    // a variavel acima combina os 2 arrays acima para movimentar o cavalo
+    vector<int> listRow;
+    vector<int> listColumn;    
+    vector<int> listOfMoveNumbers;
     
-    int tempMN = 0; // tempMoveNumber
-    int smallAcess = 9;
-    
-    vector<int> iX;
-    vector<int> iY;
-    
-    vector<int> indiceMN;
     int sub = 100;
     int decision = 0;
     
-    int currentRow = 0; // está para moveV[side]
-    int currentColumn = 0; // está para moveH[side]
-    int rTemp = 0;  // linha temporaria para teste
-    int cTemp = 0; // coluna temporaria para teste
+    int row_FirstMove = 0; // está para moveV[sideOfChessBoard]
+    int column_FirstMove = 0; // está para moveH[sideOfChessBoard]
+    int tempRow_FirstMove = 0;  // linha temporaria para teste
+    int tempColumn_FirstMove = 0; // coluna temporaria para teste
     
-    int currentRow2 = 0; // está para moveV[side]
-    int currentColumn2 = 0; // está para moveH[side]
-    int rTemp2 = 0;  // linha temporaria para teste
-    int cTemp2 = 0; // coluna temporaria para teste
-    
-    int i = 0; // contador do loop de alterações
-    int z = 0;
+    int row_SecondMove = 0; // está para moveV[sideOfChessBoard]
+    int column_SecondMove = 0; // está para moveH[sideOfChessBoard]
+    int tempRow_SecondMove = 0;  // linha temporaria para teste
+    int tempColumn_SecondMove = 0; // coluna temporaria para teste
+        
+    int numberOfCurrentMovement = 0; // contador do loop de alterações
+    const int numberOfPossibleMovements = 64;
     
     bool alteration = false; // se alterar o tabuleiro = true
     
-    int cR = 0;
-    int cC = 0;
+    int currentRow = 0;
+    int currentColumn = 0;
     
-    while(cR < 8)
+    while(currentRow < ranks)
     {
-        cC = 0;
-        while(cC < 8)
+        currentColumn = 0;
+        while(currentColumn < files)
         {
-            int currentColumn = cC; // está para moveH[side]
-            int currentRow = cR; // está para moveV[side]
-            int cTemp = currentColumn; // coluna temporaria para teste
-            int rTemp = currentRow;  // linha temporaria para teste
-            i = 0;
-            while(i < 64) // board
+            column_FirstMove = currentColumn; // está para moveH[sideOfChessBoard]
+            row_FirstMove = currentRow; // está para moveV[sideOfChessBoard]
+            tempColumn_FirstMove = column_FirstMove; // coluna temporaria para teste
+            tempRow_FirstMove = row_FirstMove;  // linha temporaria para teste
+            numberOfCurrentMovement = 0;
+            while(numberOfCurrentMovement < numberOfPossibleMovements) // board
             {
                 alteration = false;
-                smallAcess = 9;
-                tempMN = 0;
-                mN = 0;
-                while(mN < 8) // moveNumber
+                smallerAcessibility = smallestAcessibility;
+                tempMoveNumber = initialMoveNumber;
+                moveNumber = initialMoveNumber;
+                while(moveNumber < 8) // moveNumber
                 {
-                    if((currentRow + moveY[mN]) >= 0 &&
-                        (currentRow + moveY[mN]) <= 7 &&
-                        (currentColumn + moveX[mN]) >= 0 &&
-                        (currentColumn + moveX[mN]) <= 7)
+                    if((row_FirstMove + vertical[moveNumber]) >= arrayLowerBoundIndex &&
+                        (row_FirstMove + vertical[moveNumber]) <= arrayUpperBoundIndex &&
+                        (column_FirstMove + horizontal[moveNumber]) >= arrayLowerBoundIndex &&
+                        (column_FirstMove + horizontal[moveNumber]) <= arrayUpperBoundIndex)
                     {
-                        rTemp += moveY[mN];
-                        cTemp += moveX[mN];
-                        if(acessibility[rTemp][cTemp] > 0 && 
-                            acessibility[rTemp][cTemp] < smallAcess)
+                        tempRow_FirstMove += vertical[moveNumber];
+                        tempColumn_FirstMove += horizontal[moveNumber];
+                        if(acessibility[tempRow_FirstMove][tempColumn_FirstMove] != emptyBoardSquare && 
+                            acessibility[tempRow_FirstMove][tempColumn_FirstMove] < smallerAcessibility)
                         {
-                            smallAcess = acessibility[rTemp][cTemp]; // menor acessibilidade
-                            tempMN = mN; // indice do movimento do cavalo
+                            smallerAcessibility = acessibility[tempRow_FirstMove][tempColumn_FirstMove]; // menor acessibilidade
+                            tempMoveNumber = moveNumber; // indice do movimento do cavalo
                             alteration = true;
-                            indiceMN.clear();
-                            indiceMN.push_back(mN);
+                            listOfMoveNumbers.clear();
+                            listOfMoveNumbers.push_back(moveNumber);
                         }
-                        else if (acessibility[rTemp][cTemp] == smallAcess)
+                        else if (acessibility[tempRow_FirstMove][tempColumn_FirstMove] == smallerAcessibility)
                         {
-                            indiceMN.push_back(mN); // salvando os indices do impasse
-                            currentRow2 = rTemp; // salvando a posição do impasse
-                            currentColumn2 = rTemp;
-                            rTemp2 = rTemp;
-                            cTemp2 = cTemp;
+                            listOfMoveNumbers.push_back(moveNumber); // salvando os indices do impasse
+                            row_SecondMove = tempRow_FirstMove; // salvando a posição do impasse
+                            tempRow_SecondMove = tempRow_FirstMove;
+                            column_SecondMove = tempColumn_FirstMove;                            
+                            tempColumn_SecondMove = tempColumn_FirstMove;
                         }
-                        rTemp = currentRow;
-                        cTemp = currentColumn;
+                        tempRow_FirstMove = row_FirstMove;
+                        tempColumn_FirstMove = column_FirstMove;
                     }
-                    mN++;
+                    moveNumber++;
                 }
-                if(indiceMN.size() > 1)
+                if(listOfMoveNumbers.size() > 1)
                 {
                     sub = 100;
                     decision = 0;
-                    z = 0;
-                    while(z < indiceMN.size())
+                    decisiveMoveNumber = 0;
+                    while(decisiveMoveNumber < listOfMoveNumbers.size())
                     {
-                        smallAcess = 9;
-                        tempMN = 0;
-                        mN = 0;
-                        while(mN < 8)
+                        smallerAcessibility = smallestAcessibility;
+                        tempMoveNumber = initialMoveNumber;
+                        moveNumber = initialMoveNumber;
+                        while(moveNumber < 8)
                         {
-                            if((currentRow2 + moveY[mN]) >= 0 &&
-                                (currentRow2 + moveY[mN]) <= 7 &&
-                                (currentColumn2 + moveX[mN]) >= 0 &&
-                                (currentColumn2 + moveX[mN]) <= 7)
+                            if((row_SecondMove + vertical[moveNumber]) >= arrayLowerBoundIndex &&
+                                (row_SecondMove + vertical[moveNumber]) <= arrayUpperBoundIndex &&
+                                (column_SecondMove + horizontal[moveNumber]) >= arrayLowerBoundIndex &&
+                                (column_SecondMove + horizontal[moveNumber]) <= arrayUpperBoundIndex)
                             {
-                                rTemp2 += moveY[mN];
-                                cTemp2 += moveX[mN];
-                                if(acessibility[rTemp2][cTemp2] > 0 && 
-                                    acessibility[rTemp2][cTemp2] < smallAcess)
+                                tempRow_SecondMove += vertical[moveNumber];
+                                tempColumn_SecondMove += horizontal[moveNumber];
+                                if(acessibility[tempRow_SecondMove][tempColumn_SecondMove] != emptyBoardSquare && 
+                                    acessibility[tempRow_SecondMove][tempColumn_SecondMove] < smallerAcessibility)
                                 {
-                                    smallAcess = acessibility[rTemp2][cTemp2];
+                                    smallerAcessibility = acessibility[tempRow_SecondMove][tempColumn_SecondMove];
                                 }
-                                rTemp2 = currentRow2;
-                                cTemp2 = currentColumn2;
+                                tempRow_SecondMove = row_SecondMove;
+                                tempColumn_SecondMove = column_SecondMove;
                             }
-                            mN++;
+                            moveNumber++;
                         }
-                        if(smallAcess < sub)
+                        if(smallerAcessibility < sub)
                         {
-                            sub = smallAcess; // abaixa o nivel
-                            decision = z; // decide pelo indice atual
+                            sub = smallerAcessibility; // abalistRowa o nivel
+                            decision = decisiveMoveNumber; // decide pelo indice atual
                         }
-                        z++;
+                        decisiveMoveNumber++;
                     }
-                    tempMN = indiceMN[decision];
+                    tempMoveNumber = listOfMoveNumbers[decision];
                 }
                 if(alteration == false)
                     break;
-                currentRow += moveY[tempMN];
-                currentColumn += moveX[tempMN];
-                rTemp = currentRow;
-                cTemp = currentColumn;
-                acessibility[currentRow][currentColumn] = 0;
-                test[currentRow][currentColumn] = i + 1; //dddddd
-                i++;
+                row_FirstMove += vertical[tempMoveNumber];
+                column_FirstMove += horizontal[tempMoveNumber];
+                tempRow_FirstMove = row_FirstMove;
+                tempColumn_FirstMove = column_FirstMove;
+                acessibility[row_FirstMove][column_FirstMove] = 0;
+                test[row_FirstMove][column_FirstMove] = numberOfCurrentMovement + 1;
+                numberOfCurrentMovement++;
             } 
-            if(i == 64)
+            if(numberOfCurrentMovement == numberOfPossibleMovements)
             {
-                iX.push_back(cR);
-                iY.push_back(cC);
-                cout << "Sequencia = " << iX.size() 
-                    << "\tl = " << cR << "\tc = " << cC << endl;
-                for(int c = 0; c < 8; c++, cout << endl)
-                    for(int d = 0; d < 8; d++)
-                        cout << setw(4) << test[c][d];
+                listRow.push_back(currentRow);
+                listColumn.push_back(currentColumn);
+                cout << "Sequencia = " << listRow.size() 
+                    << "\tl = " << currentRow << "\tc = " << currentColumn << endl;
+                for(int line = 0; line < ranks; line++, cout << endl)
+                    for(int column = 0; column < files; column++)
+                        cout << setw(4) << test[line][column];
                 cout << endl << endl;
-                for(int m = 0; m < 8; m++)
-                    for(int n = 0; n < 8; n++)
+                for(int m = 0; m < ranks; m++)
+                    for(int n = 0; n < files; n++)
                         test[m][n] = board[m][n];
             }
-            for(int a = 0; a < 8; a++)
-                for(int b = 0; b < 8; b++)
+            for(int a = 0; a < ranks; a++)
+                for(int b = 0; b < files; b++)
                     acessibility[a][b] = board[a][b];
-            cC++;
+            currentColumn++;
         }
-        cR++;
+        currentRow++;
     }
-    cout << "\t\tSize = " << iX.size() << endl;
+    cout << "\t\tSize = " << listRow.size() << endl;
     cout << "\n      Row =   ";
-    for(int r = 0; r < iX.size(); r++)
-        cout << iX[r] << "   ";
+    for(int r = 0; r < listRow.size(); r++)
+        cout << listRow[r] << "   ";
     cout << endl;
     cout << "   Column =   ";
-    for(int s = 0; s < iX.size(); s++)
-        cout << iY[s] << "   ";
+    for(int s = 0; s < listRow.size(); s++)
+        cout << listColumn[s] << "   ";
     return 0;
 }
