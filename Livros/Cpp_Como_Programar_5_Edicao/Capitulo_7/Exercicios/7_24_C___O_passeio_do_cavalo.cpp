@@ -36,14 +36,14 @@ Rotulamos um array bidimensional accessibility com números indicando a partir d
 cada quadrado particular é acessível. Em um tabuleiro vazio, os 16 quadrados centrais são avaliados
 como 8, cada canto é avaliado como 2 e os outros quadrados têm números de acessibilidade 3, 4 ou 6:
 
-    2 3 4 4 4 4 3 2
-    3 4 6 6 6 6 4 3
-    4 6 8 8 8 8 6 4
-    4 6 8 8 8 8 6 4
-    4 6 8 8 8 8 6 4
-    4 6 8 8 8 8 6 4
-    3 4 6 6 6 6 4 3
-    2 3 4 4 4 4 3 2
+    2  3  4  4  4  4  3  2
+    3  4  6  6  6  6  4  3
+    4  6  8  8  8  8  6  4
+    4  6  8  8  8  8  6  4
+    4  6  8  8  8  8  6  4
+    4  6  8  8  8  8  6  4
+    3  4  6  6  6  6  4  3
+    2  3  4  4  4  4  3  2
 
 Agora escreva uma versão do programa do Passeio do Cavalo utilizando a heurística de acessibilidade. 
 Em qualquer dado momento, o cavaleiro deve mover-se para o quadrado com o número mais baixo de 
