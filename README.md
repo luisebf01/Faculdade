@@ -16,3 +16,5 @@ Num | Nome | Nota
 3 | www | zzz
 
 `document.getElementById()` é um comando da linguagem Javascript
+
+Olá, pequeno Gafanhato 
