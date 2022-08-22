@@ -4,3 +4,7 @@
  Repositório criado a partir do curso do Gustavo Guanabara.
 
 Essa linha eu adicionei pelo editor no site do GitHub.
+
+- [x] - teste
+- [ ] - teste2
+- [ ] - teste3
