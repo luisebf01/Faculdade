@@ -15,6 +15,6 @@ Num | Nome | Nota
 2 | ggg | kkk
 3 | www | zzz
 
-`document.getElementById()` é um comando da linguagem Javascript
+`document.getElementById()` (entre crases dá destaque) é um comando da linguagem Javascript
 
-Olá, pequeno Gafanhato 
+Olá, pequeno Gafanhato 🐒
