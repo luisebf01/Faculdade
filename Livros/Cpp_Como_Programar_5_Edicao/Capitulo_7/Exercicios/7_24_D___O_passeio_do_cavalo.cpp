@@ -148,8 +148,8 @@ int main()
                         {
                             listOfMoveNumbers.push_back(moveNumber); // salva o índice do impasse, como o último da fila na lista de movimentos possíveis
                             row_SecondMove = tempRow_FirstMove; // a linha inicial do segundo movimento, começa a partir da linha temporária do primeiro movimento
+                            column_SecondMove = tempColumn_FirstMove; // a coluna inicial do segundo movimento, começa a partir da coluna temporária do primeiro movimento 
                             tempRow_SecondMove = tempRow_FirstMove; // a linha temporária do segundo movimento, começa a partir da linha temporária do primeiro movimento
-                            column_SecondMove = tempColumn_FirstMove; // a coluna inicial do segundo movimento, começa a partir da coluna temporária do primeiro movimento
                             tempColumn_SecondMove = tempColumn_FirstMove; // a coluna temporária do segundo movimento, começa a partir da coluna temporária do primeiro movimento
                         }
                         tempRow_FirstMove = row_FirstMove; // reseta a linha temporária, para a linha atual
