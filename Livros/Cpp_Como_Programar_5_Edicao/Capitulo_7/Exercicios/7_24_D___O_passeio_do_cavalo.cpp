@@ -149,8 +149,8 @@ int main()
                             listOfMoveNumbers.push_back(moveNumber); // salva o índice do impasse, como o último da fila na lista de movimentos possíveis
                             row_SecondMove = tempRow_FirstMove; // a linha inicial do segundo movimento, começa a partir da linha temporária do primeiro movimento
                             column_SecondMove = tempColumn_FirstMove; // a coluna inicial do segundo movimento, começa a partir da coluna temporária do primeiro movimento 
-                            tempRow_SecondMove = tempRow_FirstMove; // a linha temporária do segundo movimento, começa a partir da linha temporária do primeiro movimento
-                            tempColumn_SecondMove = tempColumn_FirstMove; // a coluna temporária do segundo movimento, começa a partir da coluna temporária do primeiro movimento
+                            tempRow_SecondMove = row_SecondMove; // a linha temporária do segundo movimento, começa a partir da linha inicial do segundo movimento
+                            tempColumn_SecondMove = column_SecondMove; // a coluna temporária do segundo movimento, começa a partir da coluna inicial do segundo movimento
                         }
                         tempRow_FirstMove = row_FirstMove; // reseta a linha temporária, para a linha atual
                         tempColumn_FirstMove = column_FirstMove; // reseta a coluna temporária, para a coluna atual
@@ -228,10 +228,10 @@ int main()
     cout << "\t\tSize = " << listRow.size() << endl; // printa quantos tabuleiros foram feitos
     cout << "\n      Row =   ";
     for(int line = 0; line < listRow.size(); line++)
-        cout << listRow[line] << "   "; // printa as linhas que deram certo
+        cout << listRow[line] << "   "; // printa as linhas iniciais que deram certo
     cout << endl;
     cout << "   Column =   ";
     for(int column = 0; column < listColumn.size(); column++)
-        cout << listColumn[column] << "   "; // printa as colunas que deram certo
+        cout << listColumn[column] << "   "; // printa as colunas iniciais que deram certo
     return 0;
 }
