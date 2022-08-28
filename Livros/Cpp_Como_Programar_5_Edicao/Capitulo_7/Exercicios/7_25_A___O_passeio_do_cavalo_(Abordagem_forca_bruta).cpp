@@ -57,7 +57,6 @@ int main()
     const int initialMoveNumber = 0;
     int moveNumber = 0; // essa variavel combina os 2 arrays acima para movimentar o cavalo
     int tempMoveNumber = 0;    
-    int decisiveMoveNumber = 0;
     const int maximumMovesNumber = 8;  
     
     const int smallestAcessibility = 9;
