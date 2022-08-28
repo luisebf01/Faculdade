@@ -1,27 +1,13 @@
 /*
-(O Passeio do Cavalo) Um dos quebra-cabeças mais interessantes dos entusiastas do xadrez é 
-o problema do Passeio do Cavalo. Esta é a pergunta: a peça de xadrez chamada cavalo pode-se 
-mover em um tabuleiro vazio e tocar cada um dos 64 quadrados uma vez e unicamente uma vez? 
-Estudamos esse problema intrigante profundamente nesse exercício. O cavalo move-se em um 
-caminho em forma de L (duas posições em uma direção e então uma em uma direção perpendicular). 
-Portanto, a partir de um quadrado no meio de um tabuleiro vazio, o cavalo pode fazer oito 
-movimentos diferentes (numerados de 0 a 7) como mostra a Figura 7.34.
+(Passeio do Cavalo: abordagens de força bruta) No Exercício 7.24 desenvolvemos uma solução para o problema
+do Passeio do Cavalo. A abordagem utilizada, chamada de ‘acessibilidade heurística’, gera muitas soluções
+e executa eficientemente. À medida que os computadores continuam aumentando em potência, seremos capazes
+de resolver cada vez mais problemas com a pura capacidade do computador e algoritmos relativamente simples.
+Essa é a abordagem de ‘força bruta’ para resolução de problemas.
 
-    *  *  *  *  *  *  *  * 
-    *  *  *  2  *  1  *  * 
-    *  *  3  *  *  *  0  *
-    *  *  *  *  K  *  *  *
-    *  *  4  *  *  *  7  *
-    *  *  *  5  *  6  *  *
-    *  *  *  *  *  *  *  * 
-    *  *  *  *  *  *  *  * 
-    
-    Figura 7.34 - Os oito possíveis movimentos do cavalo.
-
-d) Escreva uma versão do programa Passeio do Cavalo que, diante de um impasse entre dois ou mais quadrados,
-decide qual quadrado escolher olhando para a frente aqueles quadrados alcançáveis a partir dos quadrados
-geradores do impasse. Seu programa deve mover-se para o quadrado por meio do qual seu próximo movimento 
-chegaria ao quadrado com o número de acessibilidade mais balistRowo.
+a) Utilize geração de números aleatórios para permitir que o cavalo ande pelo tabuleiro de xadrez (em seus
+movimentos válidos em forma de L, naturalmente) de maneira aleatória. Seu programa deve executar um passeio
+e imprimir o tabuleiro de xadrez final. Até onde o cavalo chegou?
 */
 
 #include <iostream>
@@ -39,16 +25,7 @@ int main()
 {
     const int sideOfChessBoard = 8;
     const int ranks = sideOfChessBoard; // rows of a chessboard
-    const int files = sideOfChessBoard; // columns of a chessboard    
-                                     
-    const int board[sideOfChessBoard][sideOfChessBoard] = { {2,3,4,4,4,4,3,2},
-                                                            {3,4,6,6,6,6,4,3},
-                                                            {4,6,8,8,8,8,6,4},
-                                                            {4,6,8,8,8,8,6,4},
-                                                            {4,6,8,8,8,8,6,4},
-                                                            {4,6,8,8,8,8,6,4},
-                                                            {3,4,6,6,6,6,4,3},
-                                                            {2,3,4,4,4,4,3,2} };
+    const int files = sideOfChessBoard; // columns of a chessboard   
 
     int acessibility[sideOfChessBoard][sideOfChessBoard] = { {2,3,4,4,4,4,3,2},
                                                              {3,4,6,6,6,6,4,3},
@@ -58,20 +35,22 @@ int main()
                                                              {4,6,8,8,8,8,6,4},
                                                              {3,4,6,6,6,6,4,3},
                                                              {2,3,4,4,4,4,3,2} };
+                                     
+    int board[sideOfChessBoard][sideOfChessBoard] = { {2,3,4,4,4,4,3,2},
+                                                      {3,4,6,6,6,6,4,3},
+                                                      {4,6,8,8,8,8,6,4},
+                                                      {4,6,8,8,8,8,6,4},
+                                                      {4,6,8,8,8,8,6,4},
+                                                      {4,6,8,8,8,8,6,4},
+                                                      {3,4,6,6,6,6,4,3},
+                                                      {2,3,4,4,4,4,3,2} };    
                               
-    int test[sideOfChessBoard][sideOfChessBoard] = { {2,3,4,4,4,4,3,2},
-                                                     {3,4,6,6,6,6,4,3},
-                                                     {4,6,8,8,8,8,6,4},
-                                                     {4,6,8,8,8,8,6,4},
-                                                     {4,6,8,8,8,8,6,4},
-                                                     {4,6,8,8,8,8,6,4},
-                                                     {3,4,6,6,6,6,4,3},
-                                                     {2,3,4,4,4,4,3,2} };
+    int test[sideOfChessBoard][sideOfChessBoard] = { 0 };
 
     const int emptyBoardSquare = 0; 
     const int arrayLowerBoundIndex = 0;
     const int arrayUpperBoundIndex = 7;
-
+    
     const int horizontal[sideOfChessBoard] = { 2, 1, -1, -2, -2, -1, 1, 2 }; // movimentos possiveis em x
     const int vertical[sideOfChessBoard] = { -1, -2, -2, -1, 1, 2, 2, 1 }; // movimentos possiveis em y
 
@@ -80,15 +59,15 @@ int main()
     int tempMoveNumber = 0;    
     int decisiveMoveNumber = 0;
     const int maximumMovesNumber = 8;  
-
+    
     const int smallestAcessibility = 9;
     int smallerAcessibility = smallestAcessibility;
     int smallAcessibility = smallestAcessibility;
     
     vector<int> listRow;
     vector<int> listColumn;    
-    vector<int> listOfMoveNumbers;    
-    
+    vector<int> listOfMoveNumbers;
+
     int decision = 0;
     
     int row_FirstMove = 0;
@@ -115,15 +94,15 @@ int main()
         currentColumn = initialMovement; // reseta a coluna, para todas as linhas
         while(currentColumn < files) // enquanto a coluna atual for menor que o total de colunas do tabuleiro
         {
-            column_FirstMove = currentColumn; // configura a coluna inicial
-            row_FirstMove = currentRow; // configura a linha inicial
-            tempColumn_FirstMove = column_FirstMove; // reseta a coluna temporária
-            tempRow_FirstMove = row_FirstMove; // reseta a linha temporária
+            int column_FirstMove = currentColumn; // configura a coluna inicial
+            int row_FirstMove = currentRow; // configura a linha inicial
+            int tempColumn_FirstMove = column_FirstMove; // reseta a coluna temporária
+            int tempRow_FirstMove = row_FirstMove; // reseta a linha temporária
             numberOfCurrentMovement = initialMovement; // reseta o numero de movimentos a serem testados
             while(numberOfCurrentMovement < numberOfPossibleMovements) // loop que testa todas as 64(8x8) casas do tabuleiro começando das (linhas x colunas) atuais
             {
                 alteration = false;
-                smallerAcessibility = smallestAcessibility; // reseta a acessibilidade temporária
+                smallAcessibility = smallestAcessibility; // reseta a acessibilidade temporária
                 tempMoveNumber = initialMoveNumber;
                 moveNumber = initialMoveNumber;
                 while(moveNumber < maximumMovesNumber) // loop que testa todos os 8 movimentos do cavalo
@@ -136,21 +115,21 @@ int main()
                         tempRow_FirstMove += vertical[moveNumber];
                         tempColumn_FirstMove += horizontal[moveNumber];
                         if(acessibility[tempRow_FirstMove][tempColumn_FirstMove] != emptyBoardSquare && 
-                            acessibility[tempRow_FirstMove][tempColumn_FirstMove] < smallerAcessibility) // se o movimento é aceitável e tem a menor acessibilidade
+                            acessibility[tempRow_FirstMove][tempColumn_FirstMove] < smallAcessibility) // se o movimento é aceitável e tem a menor acessibilidade
                         {
-                            smallerAcessibility = acessibility[tempRow_FirstMove][tempColumn_FirstMove]; // salva a acessibilidade do movimento
+                            smallAcessibility = acessibility[tempRow_FirstMove][tempColumn_FirstMove]; // salva a acessibilidade do movimento
                             tempMoveNumber = moveNumber; // salva o índice do movimento em uma váriavel temporária
                             alteration = true; // salva como verdadeiro, que vai haver alterações no tabuleiro
                             listOfMoveNumbers.clear(); // limpa a lista de movimentos possíveis
                             listOfMoveNumbers.push_back(moveNumber); // salva o índice do movimento, como o primeiro da fila na lista de movimentos possíveis
                         }
-                        else if (acessibility[tempRow_FirstMove][tempColumn_FirstMove] == smallerAcessibility) // se é um movimento com a mesma acessibilidade do anterior
+                        else if (acessibility[tempRow_FirstMove][tempColumn_FirstMove] == smallAcessibility) // se é um movimento com a mesma acessibilidade do anterior
                         {
                             listOfMoveNumbers.push_back(moveNumber); // salva o índice do impasse, como o último da fila na lista de movimentos possíveis
                             row_SecondMove = tempRow_FirstMove; // a linha inicial do segundo movimento, começa a partir da linha temporária do primeiro movimento
-                            column_SecondMove = tempColumn_FirstMove; // a coluna inicial do segundo movimento, começa a partir da coluna temporária do primeiro movimento 
-                            tempRow_SecondMove = row_SecondMove; // a linha temporária do segundo movimento, começa a partir da linha inicial do segundo movimento
-                            tempColumn_SecondMove = column_SecondMove; // a coluna temporária do segundo movimento, começa a partir da coluna inicial do segundo movimento
+                            column_SecondMove = tempRow_FirstMove; // a coluna inicial do segundo movimento, começa a partir da coluna temporária do primeiro movimento 
+                            tempRow_SecondMove = tempRow_FirstMove; // a linha temporária do segundo movimento, começa a partir da linha inicial do segundo movimento
+                            tempColumn_SecondMove = tempColumn_FirstMove; // a coluna temporária do segundo movimento, começa a partir da coluna inicial do segundo movimento
                         }
                         tempRow_FirstMove = row_FirstMove; // reseta a linha temporária, para a linha atual
                         tempColumn_FirstMove = column_FirstMove; // reseta a coluna temporária, para a coluna atual
@@ -159,40 +138,8 @@ int main()
                 }
                 if(listOfMoveNumbers.size() > 1) // se existe mais de 1 movimento possível com a mesma acessibilidade
                 {
-                    smallAcessibility = smallestAcessibility;
-                    decision = initialMoveNumber; // configura como '0' a decisão do impasse
-                    decisiveMoveNumber = initialMoveNumber;
-                    while(decisiveMoveNumber < listOfMoveNumbers.size())
-                    {
-                        smallerAcessibility = smallestAcessibility;
-                        tempMoveNumber = initialMoveNumber;
-                        moveNumber = initialMoveNumber;
-                        while(moveNumber < maximumMovesNumber)
-                        {
-                            if((row_SecondMove + vertical[moveNumber]) >= arrayLowerBoundIndex &&
-                                (row_SecondMove + vertical[moveNumber]) <= arrayUpperBoundIndex &&
-                                (column_SecondMove + horizontal[moveNumber]) >= arrayLowerBoundIndex &&
-                                (column_SecondMove + horizontal[moveNumber]) <= arrayUpperBoundIndex)
-                            {
-                                tempRow_SecondMove += vertical[moveNumber];
-                                tempColumn_SecondMove += horizontal[moveNumber];
-                                if(acessibility[tempRow_SecondMove][tempColumn_SecondMove] != emptyBoardSquare && 
-                                    acessibility[tempRow_SecondMove][tempColumn_SecondMove] < smallerAcessibility)
-                                {
-                                    smallerAcessibility = acessibility[tempRow_SecondMove][tempColumn_SecondMove];
-                                }
-                                tempRow_SecondMove = row_SecondMove;
-                                tempColumn_SecondMove = column_SecondMove;
-                            }
-                            moveNumber++;
-                        }
-                        if(smallerAcessibility < smallAcessibility)
-                        {
-                            smallAcessibility = smallerAcessibility;
-                            decision = decisiveMoveNumber; // decide pelo indice atual
-                        }
-                        decisiveMoveNumber++;
-                    }
+                    srand(time(NULL));
+                    decision = rand() % listOfMoveNumbers.size(); // decide pelo indice aleatório
                     tempMoveNumber = listOfMoveNumbers[decision];
                 }
                 if(alteration == false) // se não houve uma alteração
@@ -228,10 +175,10 @@ int main()
     cout << "\t\tSize = " << listRow.size() << endl; // printa quantos tabuleiros foram feitos
     cout << "\n      Row =   ";
     for(int line = 0; line < listRow.size(); line++)
-        cout << listRow[line] << "   "; // printa as linhas iniciais que deram certo
+        cout << listRow[line] << "   ";  // printa as linhas iniciais que deram certo
     cout << endl;
     cout << "   Column =   ";
-    for(int column = 0; column < listColumn.size(); column++)
+    for(int column = 0; column < listRow.size(); column++)
         cout << listColumn[column] << "   "; // printa as colunas iniciais que deram certo
     return 0;
 }
